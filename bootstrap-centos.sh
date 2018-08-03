@@ -101,9 +101,11 @@ function generate_ssh_key() {
   local user="${1}"
   local email="${2}"
 
+  # TODO only do this is the .ssh directory does not exist and does not have a key
   mkdir -p "/home/${user}/.ssh"
-  ssh-keygen -t rsa -b 4096 -C "${email}"
-  mv --no-clobber ~/.ssh/id_rsa* "/home/${user}/.ssh/"
+  ssh-keygen -t rsa -b 4096 -C "${email}" -f .id_rsa
+  mv --no-clobber .id_rsa "/home/${user}/.ssh/id_rsa"
+  mv --no-clobber .id_rsa.pub "/home/${user}/.ssh/id_rsa.pub"
   chmod 700 "/home/${user}/.ssh"
   chmod 644 "/home/${user}/.ssh/id_rsa.pub"
   chmod 600 "/home/${user}/.ssh/id_rsa"
@@ -121,6 +123,19 @@ function setup_home() {
   git add .
 
   cd "${workdir}"
+}
+
+function finish_vim_setup() {
+  local user="${1}"
+  local vim_bundle_dir="/home/${user}/.vim/bundle"
+  local vundle_dir="${vim_bundle_dir}/Vundle.vim"
+
+  if [ ! -d "${vundle_dir}" ]; then
+    mkdir -p "${vim_bundle_dir}"
+    git clone https://github.com/VundleVim/Vundle.vim.git "${vundle_dir}"
+  fi
+
+  su -c 'vim +PluginInstall +qall' lwoodson
 }
 
 function review_changes() {
@@ -192,15 +207,16 @@ function main() {
 #  install_desktop
 #  pre_packages
 #  install_essentials
-#  install_openssl
 #  install_vim
-#  install_tmux
+#  install_openssl
 #  install_git
+#  install_tmux
 #  install_aws_cli
 #  install_docker
-  store_initial_home_state "${user}"
-  generate_ssh_key "${user}" "${email}"
-  setup_home "${user}"
+#  store_initial_home_state "${user}"
+#  generate_ssh_key "${user}" "${email}"
+#  setup_home "${user}"
+  finish_vim_setup "${user}"
   review_changes "${user}"
   set +o xtrace
   parting_instructions "${user}"
