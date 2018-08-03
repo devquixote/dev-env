@@ -1,0 +1,32 @@
+#!/bin/bash
+set -o nounset
+set -o errexit
+
+function start_session() {
+  local session="${1}"
+
+  echo "building session ${session}..."
+  tmux new-session -d -s "${session}" -n work
+  tmux split-window -t "${session}:work" -h -p 10
+  tmux new-window -t "${session}" -n console
+  #tmux send-keys -t ${session}:work.0 'vim' Enter
+  tmux select-window -t "${session}:work"
+  tmux select-pane -t 0
+}
+
+function attach() {
+  local session="${1}"
+
+  echo "attaching to session ${session}..."
+  TERM=xterm-256color tmux attach-session -t "${session}"
+}
+
+function main() {
+  local session="${TMUX_SESSION:=dev}"
+
+  start_session "${session}"
+  sleep 1
+  attach "${session}"
+}
+
+main

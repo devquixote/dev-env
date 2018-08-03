@@ -1,0 +1,738 @@
+snippet .skeleton
+	AWSTemplateFormatVersion: "${1:2010-09-09}"
+
+	Description: >
+	  Write me
+
+	Metadata:
+	  # add metadata
+
+	Parameters:
+	  # add parameters
+
+	Mappings:
+	  # add mapping
+
+	Conditions:
+	  # add conditions
+
+	Resources:
+	  # add resources
+
+	Outputs:
+	  # add outputs
+
+# Params
+snippet .param
+	${1:name}:
+	  Type: ${2:string}
+	  # TODO constraints (.param.constraint.*)
+	  #
+	  # TODO Description: <string>
+	  #      Description of the parameter
+	  #
+	  # TODO Default: <value>
+	  #      Default value if the param is not specified
+	  #
+
+snippet .param.constraint.allowed-pattern
+	AllowedPattern: ${1:regex}
+
+snippet .param.constraint.allowed-values
+	AllowedValues:
+	  - ${1:value}
+
+snippet .param.constraint.description
+	ConstraintDescription: ${1:explaination}
+
+snippet .param.constraint.min-length
+	MinLength: ${1:int}
+
+snippet .param.constraint.max-length
+	MaxLength: ${1:int}
+
+snippet .param.constraint.min-value
+	MinValue: ${1:int}
+
+snippet .param.constraint.max-value
+	MaxValue: ${1:int}
+
+snippet .param.type.string
+	Type: String
+
+snippet .param.type.number
+	Type: Number
+
+snippet .param.type.list.number
+	Type: List<Number>
+
+snippet .param.type.list.comma-delimited
+	Type: CommaDelimitedList
+
+# AWS-specific parameter types
+snippet .param.type.aws.az-name
+	Type: "AWS::EC2::AvailabilityZone::Name"
+
+snippet .param.type.aws.image-id
+	Type: "AWS::EC2::Image::Id"
+
+snippet .param.type.aws.instance-id
+	Type: "AWS::EC2::Instance::Id"
+
+snippet .param.type.aws.key-name
+	Type: "AWS::EC2::KeyPair::KeyName"
+
+snippet .param.type.aws.security-group-id
+	Type: "AWS::EC2::SecurityGroup::Id"
+
+snippet .param.type.aws.security-group-name
+	Type: "AWS::EC2::SecurityGroup::GroupName"
+
+snippet .param.type.aws.subnet-id
+	Type: "AWS::EC2::Subnet::Id"
+
+snippet .param.type.aws.volume-id
+	Type: "AWS::EC2::Volume::Id"
+
+snippet .param.type.aws.vpc-id
+	Type: "AWS::EC2::VPC::Id"
+
+snippet .param.type.aws.route53-hosted-zone-id
+	Type: "AWS::Route53::HostedZone::Id"
+
+snippet .param.type.aws.list.az-name
+	Type: "List<AWS::EC2::AvailabilityZone::Name>"
+
+snippet .param.type.aws.list.image-id
+	Type: "List<AWS::EC2::Image::Id>"
+
+snippet .param.type.aws.list.instance-id
+	Type: "List<AWS::EC2::Image::Id>"
+
+snippet .param.type.aws.list.security-group-id
+	Type: "List<AWS::EC2::SecurityGroup::Id>"
+
+snippet .param.type.aws.list.security-group-name
+	Type: "List<AWS::EC2::SecurityGroup::GroupName>"
+
+snippet .param.type.aws.list.subnet-id
+	Type: "List<AWS::EC2::Subnet::Id>"
+
+snippet .param.type.aws.list.volume-id
+	Type: "List<AWS::EC2::Volume::Id>"
+
+snippet .param.type.aws.list.vpc-id
+	Type: "List<AWS::EC2::VPC::Id>"
+
+snippet .param.type.aws.list.route53-hosted-zone-id
+	Type: "List<AWS::Route53::HostedZone::Id>"
+
+# TODO SSM params
+
+snippet .metadata
+	${0:logical-id}:
+	  Description: ${1:desc}
+
+snippet .mapping
+	${1:logical-id}:
+	  ${2:key1}:
+	    ${3:key2}: ${4:value}
+
+snippet .condition
+	${1:logical-id}:
+	  ${2:intrinsic-fn}
+
+snippet .resource
+	${1:logical-id}:
+	  Type: ${2:Type}
+	  Properties:
+	    ${3:Properties}
+
+snippet .transform.serverless
+	Transform: "AWS::Serverless-${1:2016-10-31}"
+
+snippet .transform.include
+	Transform:
+	  Name: "AWS::Include"
+	  Parameters:
+	    Location: ${0:s3-url}
+
+snippet .output
+	${1:logical-id}:
+	  Value: ${1:ref}
+	  # TODO Description: <string>
+	  #      A description of the output
+	  #
+	  # TODO Export: (.output.export)
+	  #      The name of the resource output exposed as a cross-stack
+	  #      reference
+
+snippet .output.export
+	Export:
+	  Name: ${1:cross-stack-reference-name}
+
+# Functions
+snippet .ref
+	!Ref ${0:RESOURCE}
+
+snippet .gat
+	!GetAtt ${1:TARGET}.${2:ATTR}
+
+snippet .sub
+	!Sub ${1:STRING}
+
+snippet .sub+
+	!Sub |
+	  ${1}
+
+snippet .join
+	!Join [ ${1:DELIM}, [ ${2:VALUES} ] ]
+
+snippet .fim
+	!FindInMap [ ${1:ELEMENTS} ]
+
+# Condition functions
+snippet .==
+	!Equals [ ${1:REFERNCE}, ${2:VALUE} ]
+
+snippet .+
+	!Not [ Equals [ ${1:REFERENCE}, ${2:VALUE} ] ]
+
+snippet .if
+	!If [ ${1:CONDITION}, ${2:TRUE_CASE}, ${3:FALSE_CASE} ]
+
+snippet .&&
+	!And [ ${1:CONDITIONS} ]
+
+snippet .||
+	!Or [ ${1:CONDITIONS} ]
+
+# Pseudo-parameters
+snippet .pseudo-param.account
+	AWS::AccountId
+
+snippet .pseudo-param.notification-arns
+	AWS::NotificationARNs
+
+snippet .pseudo-param.no-value
+	AWS::NoValue
+
+snippet .pseudo-param.partition
+	AWS::Partition
+
+snippet .pseudo-param.region
+	AWS::Region
+
+snippet .pseudo-param.stack-id
+	AWS::StackId
+
+snippet .pseudo-param.stack-name
+	AWS::StackName
+
+snippet .pseudo-param.url-suffix
+	AWS::URLSuffix
+
+# intrinsic functions
+snippet .intrinsic-fn.base-64
+	Fn::Base64: !Sub ${1:string}
+
+snippet .intrinsic-fn.equals
+	!Equals
+	  - ${1:value}
+	  - ${2:value}
+
+snippet .intrinsic-fn.if
+	!If
+	  - ${1:condition-name}
+	  - ${2:true-value}
+	  - ${3:false-value}]
+
+snippet .intrinsic-fn.not
+	!Not
+	  - ${1:condition}
+
+snippet .intrinsic-fn.and
+	!And
+	  - ${1:condition}
+	  - ${2:condition}
+
+snippet .intrinsic-fn.or
+	!Or
+	  - ${1:condition}
+	  - ${2:condition}
+
+snippet .intrinsic-fn.find-in-map
+	!FindInMap
+	  - ${1:MapName}
+	  - ${2:Key1}
+	  - ${3:Key2}
+
+snippet .intrinsic-fn.get-att
+	!GetAtt ${1:resourceName}.${2:attributeName}
+
+snippet .intrinsic-fn.get-azs
+	!GetAZs ${1:region}
+
+snippet .intrinsic-fn.import-value
+	!ImportValue ${1:stack-output}
+
+snippet .intrinsic-fn.join
+	!Join
+	  - ${1:delimiter}
+	  - - ${2:value1}
+	    - ${3:value2}
+
+snippet .intrinsic-fn.select
+	!Select
+	  - ${1:index}
+	  - ${2:list}
+
+snippet .intrinsic-fn.split
+	!Split
+	  - ${1:delimiter}
+	  - ${2:string}
+
+snippet .intrinsic-fn.sub
+	!Sub
+	  - ${1:string}
+	  - ${2:var}: ${3:value}
+
+snippet .intrinsic-fn.ref
+	!Ref ${1:Reference}
+
+# Resources - General
+snippet .tags
+	Tags:
+	  - Key: ${1:Key}
+	    Value: ${2:Value}
+
+snippet .az
+	${AWS::Region}${2:a}
+
+# Resources - IAM
+snippet .result.iam.role.arn
+	!GetAtt ${${1:role-ref}.arn}
+
+snippet .iam.role
+	${1:logical-id}:
+	  Type: "AWS::IAM::Role"
+	  Properties:
+	    RoleName: ${1:name}
+	    AssumeRolePolicyDocument:
+	      # TODO trust polic document; use .iam.policy
+	    Policies:
+	      # TODO policies to associate with the role; use .iam.policy
+	    # Path:  A path associated with the role
+	    # ManagedPolicyArns: a list of ARNs to managed policies
+	
+
+snippet .iam.policy
+	Sid: ${1:descriptive-id}
+	Statement:
+	  # TODO list of statements (.iam.policy.statement)
+	Version: ${1:2012-10-17}
+	# Id: not-generated UUID identifier
+
+snippet .iam.role.policy
+	PolicyName: ${1:name}
+	PolicyDocument:
+	  Statement:
+	    # TODO list of statements (.iam.policy.statement)
+	  Version: ${2:2012-10-17}
+
+snippet .iam.policy.statement
+	Effect: ${1:Allow}
+	${2:Action}:
+	  - ${3:permission}
+	${4:Resource}:
+	  - ${5:resource-arn}
+	${6:Principal}:
+	  ${7:AWS}:
+	    - ${8:"*"}
+	# TODO Condition: <map>
+	#      A map of conditions used to evaluate whether a statement
+	#      applies or not
+
+snippet .iam.instance-profile
+	${1:logical-name}:
+	  Type: "AWS::IAM::InstanceProfile"
+	  Properties:
+	    InstanceProfileName: ${2:name}
+	    Roles:
+	      - ${3:role-ref}
+	    # Path: <string>
+	
+
+snippet .arn.account
+	"arn:aws:iam::ACCOUNT_ID:root"
+
+snippet .arn.user
+	"arn:aws:iam::${1:account-id}:user/${2:user-name}"
+
+# TODO federated/SAML users
+
+snippet .arn.role
+	"arn:aws:iam::${1:account-id}:role/${2:role-name}"
+
+snippet arn.assumed-role
+	"arn:aws:iam::${1:account-id}:assumed-role/${2:role-name}/${3:role-session-name}"
+
+# Resources - EC2
+snippet .result.ec2.az
+	${1:Ec2Resource}.AvailabilityZone
+
+snippet .result.ec2.private-dns-name
+	${1:Ec2Resource}.PrivateDnsName
+
+snippet .result.ec2.public-dns-name
+	${1:Ec2Resource}.PublicDnsName
+
+snippet .result.ec2.private-ip
+	${1:Ec2Resource}.PrivateIp
+
+snippet .result.ec2.public-ip
+	${1:Ec2Resource}.PublicIp
+
+snippet .ec2.volume
+	${1:logical-id}:
+	  Type: "AWS::EC2::Volume"
+	  Properties:
+	    VolumeType: !Ref VolumeType
+	    Size: !Ref VolumeSize
+	    AvailabilityZone:
+	    # TODO SnapshotId: !Ref SnapshotId
+	    #      To create volume from existing snapshot
+	    #
+	    # TODO Iops: 100-2000
+	    #      To specify provisioned IOPs
+	    #
+	    # TODO AutoEnableIO: true
+	    #      Allow IO with the volume even if inconsistent
+	
+
+snippet .ec2.volume.encryption
+	Encrypted: true
+	# TODO KmsKeyId: !Ref KmsKeyArn
+	#      To encrypt data on the volume
+
+
+snippet .ec2.instance
+	${1:logical-id}:
+	  Type: "AWS::EC2::Instance"
+	  Properties:
+	    ImageId: !Ref ${2:ImageId}
+	    InstanceType: !Ref ${3:InstanceType}
+	    KeyName: !Ref ${4:KeyName}
+	    IamInstanceProfile: !Ref ${1:InstanceProfile}
+	    UserData:
+	      Fn::Base64: !Sub |
+		#!/bin/bash
+		set -o errexit
+		set -o nounset
+
+		echo "You are up and running"
+	    # TODO SECURITY
+	    #
+	    #      IamInstanceProfile
+	    #
+	    # TODO STORAGE
+	    #
+	    #      EbsOptimized: true | false
+	    #      specify true if you want enhanced networking to EBS volumes
+	    #
+	    #      BlockDeviceMappings: [list]
+	    #      Specify to define EBS or ephemeral devices
+	    #
+	    #      Volumes: [list of ec2 mount points]
+	    #      Specify to mount a reference to a persistent volume
+	    #
+	    # TODO NETWORKING
+	    #
+	    #      NetworkInterfaces: [list]
+	    #      A list of network interfaces to attach to the instance
+	    #
+	    #      PrivateIpAddress: [list]
+	    #      The private IP address for the instance
+	    #
+	    #      SecurityGroupIds: [list]
+	    #      List containing security group IDs for VPC security groups
+	    #      to assign to the instance.  Required for VPC security groups
+	    #
+	    #      SecurityGroups: [list]
+	    #      List of EC2 security group names/references to assign to
+	    #      the instance; Incompataable with VPC security groups.
+	    #
+	    #      Ipv6AddressCount: [int]
+	    #      A number of IPv6 addresses to associate with the primary
+	    #      network interface.
+	    #
+	    #      Ipv6Addresses: [list]
+	    #      List of Ipv6Address objects to associate with the primary
+	    #      network interface
+	    #
+	    #      SourceDestCheck: true | false
+	    #      Whether source/destination checking is enabled and whether
+	    #      an instance in a VPC will perform network address translation
+	    #      (NAT)
+	    #
+	    # TODO KERNEL
+	    #
+	    #      KernelId: [id]
+	    #      The kernel ID
+	    #
+	    #      RamdiskId: <string>
+	    #      ID of the RAM disk to select if necessary for the kernel
+	    #      used
+	    #
+	    # TODO LOCATION
+	    #
+	    #      AvailabilityZone: [region]a | [region]b | [region]c
+	    #      Specify the AZ if you care.  Let AWS choose if you don't
+	    #
+	    #      Affinity: host | default
+	    #      Use to have instance launched on same physical host
+	    #
+	    #      Host: [HOST-ID]
+	    #      Must be used with Affinity; specified the host to launch the
+	    #      instance on; if not specified, AWS will choose
+	    #
+	    #      PlacementGroupName:
+	    #      Name of existing placement group that instance should be
+	    #      launched into.
+	    #
+	    #      Tenancy: default | dedicated | host
+	    #      The tenancy of the instance; host requires launch within a
+	    #      VPC
+	    #
+	    # TODO Lifecycle Behavior
+	    #
+	    #      DisableApiTermination: true
+	    #      Specify if the instance may be terminated via API
+	    #
+	    #      InstanceInitiatedShutdownBehavior: stop | terminate
+	    #      Specify if instance stops or terminates when instance
+	    #      shutdown from the OS.
+	    #
+	    # TODO Monitoring: true|false
+	    #      Enable/disable detailed monitoring (additional cost?)
+	    #
+	    # TODO Tags: [list]
+	    #      List of tags to associate with the instance
+	    #
+	    # TODO SsmAssociations: [list]
+	    #      List of Amazon Ec2 Systems Manager (SSM) document and param
+	    #      values for the instance.
+	
+
+snippet .ec2.block-device-mappings
+	BlockDeviceMappings:
+	  - DeviceName: TODO use http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html
+	    # TODO Ebs | VirtualName
+	    NoDevice: false
+
+snippet .ec2.block-device-mappings.ebs
+	Ebs:
+	  VolumeType: !Ref ${1:VolumeType}
+	  VolumeSize: !Ref ${2:VolumeSize}
+	  SnapshotId: !Ref ${3:SnapshotId}
+	  Iops: # TODO 100-2000; requires volume type io1
+	  Encrypted: false
+	  DeleteOnTermination: TODO true or false, defaults to true
+
+snippet .ec2.block-device-mappings.virtual
+	VirtualName: ephemeral${1:0}
+
+snippet .ec2.network-interface
+	DeviceIndex: ${1:eth0}
+	# TODO SubnetId: [arn]
+	#      The ID of the subnet to associate with the network interface.
+	#      Required if no NetworkInterfaceId
+	#
+	# TODO NetworkInterfaceId: <string>
+	#      ID of existing network interface; Required if no SubnetId
+	#
+	# TODO PrivateIpAddress: <string>
+	#      Single IP address to assign to the network interface
+	#
+	# TODO PrivateIpAddresses: [list]
+	#      List of private IP addressses assigned to the interface
+	#
+	# TODO SecondaryPrivateIpAddressCount: <int>
+	#      Number of secondary private IP addresses assigned to the
+	#      interface
+	#
+	# TODO AssociatePublicIpAddress: true|false
+	#      Whether to attach a public IP address
+	#
+	# TODO DeleteOnTermination: true|false
+	#      Whether to delete the network interface when the instance
+	#      terminates
+	#
+	# TODO Description: <string>
+	#      A description of the network interface
+	#
+	# TODO GroupSet: [list]
+	#      A list of security group IDs associated with the network
+	#      interface
+	#
+	# TODO Ipv6AddressCount: <int>
+	#      The number of IPv6 addresses to associate with the network
+	#      interface
+	#
+	# TODO Ipv6Addresses: [list]
+	#      Specific IPv6 addresses from the subnet's IPv6 CIDR block
+	#      range to associate with the network interface
+
+snippet .launch-config
+	${0:LaunchConfig}:
+	  Type: "AWS::AutoScaling::LaunchConfiguration"
+	  Properties:
+	    KeyName: bv-nexus
+	    ImageId: +.etAtt Image.ImageId
+	    InstanceType:  +.ef InstanceType
+	    IamInstanceProfile: +.ef InstanceProfile
+	    SecurityGroups:
+	      - +.etAtt NexusSecurityGroups.InternalTrafficId
+	    InstanceMonitoring: false
+	    UserData:
+	      Fn::Base64: >
+	        #!/bin/bash
+	        echo whats up
+
+snippet .auto-scaling-group
+	${0:AutoScalingGroup}:
+	  Type: "AWS::AutoScaling::AutoScalingGroup"
+	  Properties:
+	    LaunchConfigurationName: +.ef LaunchConfig
+	    AvailabilityZones: +.etAtt Vpc.PrivateSubnetAZs
+	    VPCZoneIdentifier: +.etAtt Vpc.PrivateSubnetIds
+	    MinSize: 1
+	    MaxSize: 1
+	    DesiredCapacity: 1
+	    LoadBalancerNames: []
+	    NotificationConfigurations:
+	      -
+	        NotificationTypes:
+	          - autoscaling:EC2_INSTANCE_LAUNCH
+	        TopicARN: +.ub arn:aws:sns:${AWS::Region}:${AWS::AccountId}:route53-private-record-set-asg
+	    Tags:
+	      -
+	        Key: Name
+	        Value: TODO_NAME
+	        PropagateAtLaunch: true
+	      -
+	        Key: bv:nexus:role
+	        Value: TODO_ROLE
+	        PropagateAtLaunch: true
+
+snippet .role
+	${0:InstanceRole}:
+	  Type: "AWS::IAM::Role"
+	  Properties:
+	    Path: /
+	    Policies:
+	      -
+	        PolicyName: TODO_POLICY_NAME
+	        PolicyDocument:
+	          Statement:
+	            -
+	              Effect: Allow
+	              Action:
+	                - TODO_ACTION
+	              Resource:
+	                - TODO_RESOURCE
+	    AssumeRolePolicyDocument:
+	      Statement:
+	        -
+	          Effect: Allow
+	          Principal:
+	            Service:
+	              - ec2.amazonaws.com
+	          Action:
+	            - sts:AssumeRole
+
+snippet .policy
+	-
+	  PolicyName: ${1:NAME}
+	  PolicyDocument:
+	    Statement:
+	      -
+	        Effect: TODO_EFFECT
+	        Action:
+	          - TODO_ACTION
+	        Resource:
+	          - TODO_RESOURCE
+
+snippet .instance-profile
+	${0:InstanceProfile}:
+	  Type: "AWS::IAM::InstanceProfile"
+	  Properties:
+	    Path: /
+	    Roles:
+	      - +.ef InstanceRole
+
+snippet .load-balancer
+	${0:LoadBalancer}:
+	  Type: "AWS::ElasticLoadBalancing::LoadBalancer"
+	  Properties:
+	    Scheme: internal
+	    Subnets: +.etAtt Vpc.PrivateSubnetIds
+	    SecurityGroups:
+	      - +.etAtt NexusSecurityGroups.InternalTrafficId
+	    Listeners:
+	      -
+	        Protocol: HTTP
+	        LoadBalancerPort: 80
+	        InstanceProtocol: HTTP
+	        InstancePort: 8080
+	    HealthCheck:
+	      HealthyThreshold: 2
+	      Interval: 15
+	      Target: TCP:8080
+	      Timeout: 5
+	      UnhealthyThreshold: 3
+
+snippet .r.s3-bucket
+	${1:logicalname}:
+	  type: aws::s3::bucket
+	  properties:
+	    bucketname: todo_name
+	    accesscontrol: todo_controls
+
+snippet .r.sqs-queue
+	${1:logicalname}:
+	  Type: AWS::SQS::Queue
+	  Properties:
+	    QueueName: TODO_QUEUE_NAME
+
+# BV Resources
+snippet .bv.nexus-vpc
+	${0:Vpc}:
+	  Type: "Custom::NexusVpc"
+	  Version: "1.0"
+	  Properties:
+	    ServiceToken: +.ub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:CommonCfnResource"
+
+snippet .bv.image-info
+	${0:Image}:
+	  Type: "Custom::EC2ImageInfo"
+	  Version: "1.0"
+	  Properties:
+	    ServiceToken: +.ub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:CommonCfnResource"
+	    Version: "2016.03.03"
+	    # this
+	    ImageName: TODO_IMAGE_NAME
+	    # or this
+	    Version: 2016.03.3
+	    InstanceType: +.ef InstanceType
+	    VirtualizationType: TODO_VIRTUALIZATION_TYPE
+	    StorageType: TODO_STORAGE_TYPE
+
+snippet .bv.security-group
+	${0:NexusSecurityGroups}:
+	  Type: "Custom::NexusSecurityGroups"
+	  Version: "1.0"
+	  Properties:
+	    ServiceToken: +.ub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:CommonCfnResource"
+	${1}
+
