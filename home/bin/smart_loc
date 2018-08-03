@@ -1,0 +1,24 @@
+#!/bin/bash
+
+function join() {
+  local IFS="/"
+
+  echo "$*"
+}
+
+function main() {
+  loc=($(pwd | tr '/' ' '))
+  output=$(pwd)
+
+  if [ "${loc[0]}" == "home" ] && [ "${loc[1]}" == "${USER}" ]; then
+    if [ "${loc[2]}" == "dev" ] && [ ${#loc[@]} -gt 4 ]; then
+      output=$(join "${loc[@]:4}")
+    else
+      output="~/$(join "${loc[@]:2}")"
+    fi
+  fi
+
+  echo "[${output}] "
+}
+
+main "$@"

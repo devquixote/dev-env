@@ -80,10 +80,14 @@ function store_initial_home_state() {
   if [ ! -d .git ]; then
     git init .
     cat > .gitignore << EOF
+.bash_history
+.viminfo
 .cache
 .config
 .local
 .mozilla
+.dbus
+Pictures
 EOF
     sleep 1
     git add .
@@ -137,8 +141,9 @@ function finish_vim_setup() {
   local vundle_dir="${vim_bundle_dir}/Vundle.vim"
 
   if [ ! -d "${vundle_dir}" ]; then
-    mkdir -p "${vim_bundle_dir}"
-    git clone https://github.com/VundleVim/Vundle.vim.git "${vundle_dir}"
+    mkdir -p ${vim_bundle_dir}
+    git clone https://github.com/VundleVim/Vundle.vim.git ${vundle_dir}
+    chown -R "${user}:${user}" "/home/${user}"
   fi
 
   su -c 'vim +PluginInstall +qall' lwoodson
@@ -219,15 +224,15 @@ function main() {
 #  install_tmux
 #  install_aws_cli
 #  install_docker
-   install_direnv
-#  store_initial_home_state "${user}"
-#  generate_ssh_key "${user}" "${email}"
-#  setup_home "${user}"
-#  finish_vim_setup "${user}"
-#  review_changes "${user}"
-#  set +o xtrace
-#  parting_instructions "${user}"
-#  reboot_if_desired
+#  install_direnv
+  store_initial_home_state "${user}"
+  generate_ssh_key "${user}" "${email}"
+  setup_home "${user}"
+  finish_vim_setup "${user}"
+  review_changes "${user}"
+  set +o xtrace
+  parting_instructions "${user}"
+  reboot_if_desired
 }
 
 main "$@"
