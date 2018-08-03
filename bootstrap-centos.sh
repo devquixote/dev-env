@@ -64,6 +64,12 @@ function install_docker() {
   systemctl start docker
 }
 
+function install_direnv() {
+  wget https://github.com/direnv/direnv/releases/download/v2.17.0/direnv.linux-amd64 -O direnv
+  chmod +x direnv
+  mv direnv /usr/local/bin/direnv
+}
+
 function store_initial_home_state() {
   local user="${1}"
   local workdir=$(pwd)
@@ -213,14 +219,15 @@ function main() {
 #  install_tmux
 #  install_aws_cli
 #  install_docker
+   install_direnv
 #  store_initial_home_state "${user}"
 #  generate_ssh_key "${user}" "${email}"
 #  setup_home "${user}"
-  finish_vim_setup "${user}"
-  review_changes "${user}"
-  set +o xtrace
-  parting_instructions "${user}"
-  reboot_if_desired
+#  finish_vim_setup "${user}"
+#  review_changes "${user}"
+#  set +o xtrace
+#  parting_instructions "${user}"
+#  reboot_if_desired
 }
 
 main "$@"
