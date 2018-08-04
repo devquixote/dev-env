@@ -222,26 +222,26 @@ function main() {
 
   # TODO read user, email from cli flags
 
-#  setup
-#  install_desktop
-#  pre_packages
-#  install_essentials
-#  install_vim
-#  install_openssl
-#  install_git
-#  install_tmux
-#  install_aws_cli
-#  install_docker
-#  install_direnv
-   install_desktop_apps
-#  store_initial_home_state "${user}"
-#  generate_ssh_key "${user}" "${email}"
-#  setup_home "${user}"
-#  finish_vim_setup "${user}"
-#  review_changes "${user}"
-#  set +o xtrace
-#  parting_instructions "${user}"
-#  reboot_if_desired
+  setup
+  install_desktop
+  pre_packages
+  install_essentials
+  install_vim
+  install_openssl
+  install_git
+  install_tmux
+  install_aws_cli
+  install_docker
+  install_direnv
+  install_desktop_apps
+  store_initial_home_state "${user}"
+  generate_ssh_key "${user}" "${email}"
+  setup_home "${user}"
+  finish_vim_setup "${user}"
+  review_changes "${user}"
+  set +o xtrace
+  parting_instructions "${user}"
+  reboot_if_desired
 }
 
 main "$@"
