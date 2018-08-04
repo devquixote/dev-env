@@ -7,9 +7,8 @@ function start_session() {
 
   echo "building session ${session}..."
   tmux new-session -d -s "${session}" -n work
-  tmux split-window -t "${session}:work" -h -p 10
+  tmux split-window -t "${session}:work" -h -p 30
   tmux new-window -t "${session}" -n console
-  #tmux send-keys -t ${session}:work.0 'vim' Enter
   tmux select-window -t "${session}:work"
   tmux select-pane -t 0
 }
