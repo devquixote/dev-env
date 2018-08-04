@@ -71,9 +71,11 @@ function install_direnv() {
 }
 
 function install_desktop_apps() {
-  yum install -y chromium
-  yum install -y evolution
-  yum localinstall -y https://github.com/saenzramiro/rambox/releases/download/0.5.17/Rambox-0.5.17-x64.rpm
+  yum install -y chromium evolution gimp
+
+  if ! hash rambox 2>/dev/null; then
+    yum localinstall -y https://github.com/saenzramiro/rambox/releases/download/0.5.17/Rambox-0.5.17-x64.rpm
+  fi
 }
 
 function store_initial_home_state() {
