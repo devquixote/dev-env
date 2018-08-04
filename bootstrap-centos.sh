@@ -70,12 +70,16 @@ function install_direnv() {
   mv direnv /usr/local/bin/direnv
 }
 
-function install_chrome() {
+function install_browsers() {
   yum install -y chromium
 }
 
 function install_email() {
   yum install -y evolution
+}
+
+function install_chat() {
+  yum localinstall -y https://github.com/saenzramiro/rambox/releases/download/0.5.17/Rambox-0.5.17-x64.rpm
 }
 
 function store_initial_home_state() {
@@ -233,8 +237,9 @@ function main() {
 #  install_aws_cli
 #  install_docker
 #  install_direnv
-   install_chrome
+   install_browsers
    install_email
+  install_chat
 #  store_initial_home_state "${user}"
 #  generate_ssh_key "${user}" "${email}"
 #  setup_home "${user}"
