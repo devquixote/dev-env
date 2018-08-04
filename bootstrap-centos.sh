@@ -70,6 +70,14 @@ function install_direnv() {
   mv direnv /usr/local/bin/direnv
 }
 
+function install_chrome() {
+  yum install -y chromium
+}
+
+function install_email() {
+  yum install -y evolution
+}
+
 function store_initial_home_state() {
   local user="${1}"
   local workdir=$(pwd)
@@ -225,14 +233,16 @@ function main() {
 #  install_aws_cli
 #  install_docker
 #  install_direnv
-  store_initial_home_state "${user}"
-  generate_ssh_key "${user}" "${email}"
-  setup_home "${user}"
-  finish_vim_setup "${user}"
-  review_changes "${user}"
-  set +o xtrace
-  parting_instructions "${user}"
-  reboot_if_desired
+   install_chrome
+   install_email
+#  store_initial_home_state "${user}"
+#  generate_ssh_key "${user}" "${email}"
+#  setup_home "${user}"
+#  finish_vim_setup "${user}"
+#  review_changes "${user}"
+#  set +o xtrace
+#  parting_instructions "${user}"
+#  reboot_if_desired
 }
 
 main "$@"
