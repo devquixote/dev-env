@@ -68,6 +68,10 @@ function install_docker() {
   systemctl start docker
 }
 
+function install pip() {
+  curl https://bootstrap.pypa.io/get-pip.py | python
+}
+
 function install_direnv() {
   wget https://github.com/direnv/direnv/releases/download/v2.17.0/direnv.linux-amd64 -O direnv
   chmod +x direnv
@@ -237,6 +241,7 @@ function main() {
   install_aws_cli
   install_docker "${user}"
   install_direnv
+  install_pip
   install_desktop_apps
   store_initial_home_state "${user}"
   generate_ssh_key "${user}" "${email}"
