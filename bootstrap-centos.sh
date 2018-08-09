@@ -58,9 +58,13 @@ function install_jq() {
 }
 
 function install_docker() {
+  local user="${1}"
+
   yum install -y yum-utils device-mapper-persistent-data lvm2
   yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
   yum install -y docker-ce
+  usermod -aG docker "${user}"
+
   systemctl start docker
 }
 
@@ -231,7 +235,7 @@ function main() {
   install_git
   install_tmux
   install_aws_cli
-  install_docker
+  install_docker "${user}"
   install_direnv
   install_desktop_apps
   store_initial_home_state "${user}"
