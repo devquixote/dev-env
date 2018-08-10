@@ -36,6 +36,8 @@ EOF
 function main() {
   validate_env_and_input "$@"
 
+  local uid=$(id -u)
+  local gid=$(id -g)
   local image="${AMOEBA_IMAGE}"
   local tag="${AMOEBA_TAG}"
   local cmd="${1}"
@@ -50,6 +52,7 @@ function main() {
   # Run a command for the project
   docker run --tty                                              \
              --interactive                                      \
+             --user "${uid}:${gid}"                             \
              --workdir /usr/local/src                           \
              --volume "${usr_local_vol}:/usr/local"             \
              --volume "${current_dir}:/usr/local/src"           \
