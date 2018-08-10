@@ -17,6 +17,10 @@ function install_desktop() {
   fi
 
   ln -sf /lib/systemd/system/runlevel5.target "${default_target}"
+
+  # install the arc, arc-dark and arc-darker gnome3 themes;
+  # will need to be manually activated later in gnome3
+  yum -y install gnome-shell-extension-user-theme arc-theme
 }
 
 function pre_packages() {
