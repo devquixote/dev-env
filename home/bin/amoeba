@@ -1,0 +1,61 @@
+#!/bin/bash
+set -o nounset
+set -o errexit
+
+function validate_env_and_input() {
+  if [ -z ${AMOEBA_IMAGE+x} ]; then
+    cat << EOF
+ERROR: You must set the AMOEBA_IMAGE env variable to a
+docker image name.
+EOF
+    exit 1
+  fi
+
+  if [ -z ${AMOEBA_TAG+x} ]; then
+    cat << EOF
+ERROR: You must set the AMOEBA_TAG env variable to a tag
+of the docker image specified in the AMOEBA_IMAGE env
+variable.
+($AMOEBA_IMAGE).
+EOF
+    exit 1
+  fi
+
+  if [ $# -lt 1 ]; then
+    cat << EOF
+ERROR: You must specify the command to execute
+(including any args) as arguments to the amoeba
+command. Example:
+
+    amoeba ls -lah /etc
+EOF
+    exit 1
+  fi
+}
+
+function main() {
+  validate_env_and_input "$@"
+
+  local image="${AMOEBA_IMAGE}"
+  local tag="${AMOEBA_TAG}"
+  local cmd="${1}"
+  shift
+  local current_dir=$(pwd)
+  local dir_part=$(pwd | sed 's/\//-/g' | cut -c 1-10000)
+  local usr_local_vol="${image}-${tag}-${dir_part}_usr-local"
+
+  # Create a volume for the project
+  docker volume create "${usr_local_vol}" 2>&1
+
+  # Run a command for the project
+  docker run --tty                                              \
+             --interactive                                      \
+             --workdir /usr/local/src                           \
+             --volume "${usr_local_vol}:/usr/local"             \
+             --volume "${current_dir}:/usr/local/src"           \
+             --rm                                               \
+             --entrypoint "${cmd}"                              \
+             "${image}:${tag}" "$@"
+}
+
+main "$@"
