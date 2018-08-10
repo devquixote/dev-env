@@ -1,7 +1,7 @@
 export TERM=xterm-256color
 export VISUAL=vim
 export EDITOR=vim
-export PATH="bin:${HOME}/bin:${PATH}"
+export PATH="bin:${HOME}/bin:${HOME}/.local/bin:${PATH}"
 export PS1='$(smart_loc)'
 export DIRENV_LOG_FORMAT=
 

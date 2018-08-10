@@ -52,9 +52,9 @@ function install_git() {
 }
 
 function install_aws_cli() {
-  curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "/tmp/awscli-bundle.zip"
-  unzip -o "/tmp/awscli-bundle.zip"
-  ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws 
+  local user="${1}"
+
+  su -c 'pip install awscli --upgrade --user' "${user}"
 }
 
 function install_jq() {
@@ -72,7 +72,12 @@ function install_docker() {
   systemctl start docker
 }
 
+function install_docker_compose() {
+  pip install docker-compose
+}
+
 function install pip() {
+  yum upgrade -y python*
   curl https://bootstrap.pypa.io/get-pip.py | python
 }
 
@@ -242,10 +247,11 @@ function main() {
   install_openssl
   install_git
   install_tmux
-  install_aws_cli
-  install_docker "${user}"
-  install_direnv
   install_pip
+  install_aws_cli "${user}"
+  install_docker "${user}"
+  install_docker_compose
+  install_direnv
   install_desktop_apps
   store_initial_home_state "${user}"
   generate_ssh_key "${user}" "${email}"
