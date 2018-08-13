@@ -93,6 +93,12 @@ function install_desktop_apps() {
   if ! hash rambox 2>/dev/null; then
     yum localinstall -y https://github.com/saenzramiro/rambox/releases/download/0.5.17/Rambox-0.5.17-x64.rpm
   fi
+
+  if ! hash spotify 2>/dev/null; then
+    # from https://community.spotify.com/t5/Desktop-Linux/Installation-for-CentOS-7/td-p/1679985
+    yum install -y https://downloads.ulyaoth.net/rpm/ulyaoth-latest.centos.x86_64.rpm
+    yum install -y spotify-client
+  fi
 }
 
 function store_initial_home_state() {
